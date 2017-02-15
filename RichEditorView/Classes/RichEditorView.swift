@@ -128,7 +128,7 @@ open class RichEditorView: UIView, UIScrollViewDelegate, UIWebViewDelegate, UIGe
         webView.backgroundColor = UIColor.white
         
         webView.scrollView.isScrollEnabled = isScrollEnabled
-        webView.scrollView.bounces = false
+        webView.scrollView.bounces = true
         webView.scrollView.delegate = self
         webView.scrollView.clipsToBounds = false
         
@@ -169,6 +169,11 @@ open class RichEditorView: UIView, UIScrollViewDelegate, UIWebViewDelegate, UIGe
     /// Text representation of the data that has been input into the editor view, if it has been loaded.
     public var text: String {
         return runJS("RE.getText()")
+    }
+    
+    public var selectedText: String? {
+        let value = runJS("RE.getSelectedText();");
+        return value.isEmpty ? nil : value
     }
 
     /// Private variable that holds the placeholder text, so you can set the placeholder before the editor loads.
@@ -233,6 +238,26 @@ open class RichEditorView: UIView, UIScrollViewDelegate, UIWebViewDelegate, UIGe
     
     public func italic() {
         runJS("RE.setItalic();")
+    }
+    
+    public func isItalic() -> Bool {
+        return (runJS("RE.isItalic();") as NSString).boolValue
+    }
+    
+    public func isBold() -> Bool {
+        return (runJS("RE.isBold();") as NSString).boolValue
+    }
+    
+    public func isBlockquote() -> Bool {
+        return (runJS("RE.isBlockquote();") as NSString).boolValue
+    }
+    
+    public func isUndoAvailable() -> Bool {
+        return (runJS("RE.isUndoAvailable();") as NSString).boolValue
+    }
+    
+    public func isRedoAvailable() -> Bool {
+        return (runJS("RE.isRedoAvailable();") as NSString).boolValue
     }
     
     // "superscript" is a keyword
